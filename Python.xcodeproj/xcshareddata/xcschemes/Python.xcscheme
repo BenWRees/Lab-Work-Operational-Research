@@ -61,6 +61,10 @@
             argument = "Labs.py"
             isEnabled = "YES">
          </CommandLineArgument>
+         <CommandLineArgument
+            argument = "Lab4.py"
+            isEnabled = "NO">
+         </CommandLineArgument>
       </CommandLineArguments>
       <AdditionalOptions>
       </AdditionalOptions>

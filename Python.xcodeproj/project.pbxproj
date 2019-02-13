@@ -8,13 +8,17 @@
 
 /* Begin PBXFileReference section */
 		CB623F57220FBC2F0074A30D /* Labs.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = Labs.py; sourceTree = "<group>"; };
+		CB623F58220FC4C20074A30D /* lab3_Exercise2.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = lab3_Exercise2.py; path = ../../../Downloads/lab3_Exercise2.py; sourceTree = "<group>"; };
+		CB623F5A22114C800074A30D /* Graphs.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = Graphs.py; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
 		CB623F4C220FBB3B0074A30D = {
 			isa = PBXGroup;
 			children = (
+				CB623F5A22114C800074A30D /* Graphs.py */,
 				CB623F57220FBC2F0074A30D /* Labs.py */,
+				CB623F58220FC4C20074A30D /* lab3_Exercise2.py */,
 			);
 			sourceTree = "<group>";
 		};
