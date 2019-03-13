@@ -316,12 +316,13 @@ distances.add_edge(1,7, distances="23")
 plot.figure()
 positions = nx.spring_layout(distances)
 nx.draw(distances,positions, with_labesl=False)
-node_labels=nx.get_node_attributes(distances, "city")
-edge_labels=nx.get_edge_attributes(distances, "distances")
-nx.draw_networkx_labels(distances,positions, labels=node_labels)
-nx.draw_networkx_edge_labels(distances, positions, edge_label= edge_labels)
+nlabels=nx.get_node_attributes(distances, "city")
+elabels=nx.get_edge_attributes(distances, "distances")
+nx.draw_networkx_labels(distances,positions, labels=nlabels)
+nx.draw_networkx_edge_labels(distances, positions, edge_labels= elabels)
+#plot.title("Distances of various cities from Southampton")
 plot.show()
-
+#plot.savefig("Distances_of_various_cities_from_Southampton.png")
 
 
 #Lab 8
