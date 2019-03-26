@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plot
+import numpy as np
 
 #Lab 5
 
@@ -15,7 +16,34 @@ for s in range(2,6) :
 plot.show()
 
 #Part 2 - Ask for Help (what does it mean, 'from above'?)
-
+#First produce a single figure with two subplots:
+domain = np.linspace(0.0,1.0, num=20)
+f, axarr = plot.subplots(2, sharex=True)
+plot.xlabel("Domain")
+plot.ylabel("Image")
+for s in range(2,6) :
+    codomain1 = domain1**s
+    #plot.legend("x^2","x^3","x^4")
+    axarr[0].plot(domain1, codomain1)
+    for s in range(2,6) :
+        codomain2 = domain1**(s**-1)
+        axarr[1].plot(domain1, codomain2)
+plot.show()
+"""
+Second produce a single figure with eight subplots, one
+for each curve.
+"""
+domain = np.linspace(0.0,1.0, num=20)
+f, axarr = plot.subplots(8, sharex=True,squeeze=True)
+plot.xlabel("Domain")
+plot.ylabel("Image")
+for s in range(2,6) :
+    codomain1 = domain1**s
+    #plot.legend("x^2","x^3","x^4")
+    axarr[s].plot(domain1, codomain1)
+    codomain2 = domain1**(s**-1)
+    axarr[s].plot(domain1, codomain2)
+plot.show()
 #Part 3
 """
     Trying out the loglog function - takes the logarithm of the image and domain

@@ -23,3 +23,5 @@ def mersenne_prime(n_max) :
             if(isprime((2**p)-1)) :
                 list_of_primes.append((2**p)-1)
     return list_of_primes
+
+

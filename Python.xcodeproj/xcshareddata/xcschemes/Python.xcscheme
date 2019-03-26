@@ -59,10 +59,30 @@
       <CommandLineArguments>
          <CommandLineArgument
             argument = "Labs.py"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "lab6part3.py"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "week4.py"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "Lab4.py"
+            argument = "test.py"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "AiWeek1.py"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "Graphs.py"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "week2.py"
             isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>
