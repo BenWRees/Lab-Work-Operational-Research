@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plot
 import networkx as nx
+import pulp
 
 #Lab 1
 #Part 1
@@ -295,42 +296,110 @@ list_1 = [1,2,2,3,4,2]
 list_2 = [3,2,5,1,2,43,54,6,76]
 print(index_result_calculator(list_1,list_2))
 
-#Lab 7
-#Part 1
-distances = nx.DiGraph()
-distances.add_node(1, city="Southampton")
-distances.add_node(2, city="Brighton")
-distances.add_node(3,city="London")
-distances.add_node(4, city="Bath")
-distances.add_node(5,city="Reading")
-distances.add_node(6,city="Exeter")
-distances.add_node(7,city="Salisbury")
-
-distances.add_edge(1,2, distances="69")
-distances.add_edge(1,3, distances="79")
-distances.add_edge(1,4, distances="64")
-distances.add_edge(1,5, distances="47")
-distances.add_edge(1,6, distances="110")
-distances.add_edge(1,7, distances="23")
-
-plot.figure()
-positions = nx.spring_layout(distances)
-nx.draw(distances,positions, with_labesl=False)
-nlabels=nx.get_node_attributes(distances, "city")
-elabels=nx.get_edge_attributes(distances, "distances")
-nx.draw_networkx_labels(distances,positions, labels=nlabels)
-nx.draw_networkx_edge_labels(distances, positions, edge_labels= elabels)
-#plot.title("Distances of various cities from Southampton")
-plot.show()
-#plot.savefig("Distances_of_various_cities_from_Southampton.png")
-
-
 #Lab 8
 #Part 1
+problem = pulp.LpProblem("Simple problem", pulp.LpMaximize)
+
+x1 = pulp.LpVariable("x_1", lowBound=0, upBound=None, cat='Continuous')
+x2 = pulp.LpVariable("x_2", lowBound=0, upBound=None, cat='Continuous')
+
+objective = x1 + x2, "Objective function to maximize"
+problem += objective
+
+c1 = 2 * x1 + x2 <= 4, "First constraint"
+c2 = x1 + 2 * x2 <= 3, "Second constraint"
+problem += c1
+problem += c2
+
+print(problem)
+problem.solve()
+print("Optimal objective function = ", pulp.value(problem.objective))
+for v in problem.variables():
+    print(v.name, "=", v.varValue)
 
 #Part 2
-
+diet_Problem = pulp.LpProblem("Cat diet problem", pulp.LpMinimize)
+x1 = pulp.LpVariable("Chicken Percentage", lowBound=0)
+x2 = pulp.LpVariable("Beef Percentage", lowBound=0)
+objective = 0.013 * x1 + 0.008 * x2, "Total cost over weight per can"
+diet_Problem += objective
+c1 = x1 + x2 == 100, "Percentage"
+c2 = 0.07 * x1 + 0.2 * x2 >= 8, "LB on protein"
+c3 = 0.08 * x1 + 0.1 * x2 >= 6, "LB on fat"
+c4 = 0.001 * x1 + 0.005 * x2 <= 2, "UB on fibers"
+c5 = 0.002 * x1 + 0.005 * x2 <= 0.4, "UB on salt"
+diet_Problem += c1
+diet_Problem += c2
+diet_Problem += c3
+diet_Problem += c4
+diet_Problem += c5
+print(diet_Problem)
+diet_Problem.solve()
+print(pulp.LpStatus[diet_Problem.status])
+print(pulp.value(diet_Problem.objective) )
+for v in diet_Problem.variables():
+    print (v.name, "=", v.varValue, "%")
 #Lab 9
 #Part 1
+"""
+    Parameters
+    ----------
+        tableau : numpy.array with dtype=numpy.float64
+                  initial tableau; it must be basic feasible
+     Returns
+     -------
+        tableau : numpy.array with dtype=numpy.float64
+                  final (basic feasible) tableau
+        status : string
+                 status of the problem: "unbounded" or "optimal"
+        z : numpy.float
+            optimal solution value (consistent only if status == "optimal")
+    Notes
+    -----
+        The supplied tableau must be basic feasible.
+"""
+def simplex_method(tableau):
+    print('Initial tableau')
+    print(tableau)
+    n = tableau.shape[1] - 1 # Number of variables (column 0 is ignored)
+    m = tableau.shape[0] - 1 # Number of constraints (row 0 is ignored)
 
-#Part 2
+    while True:
+        candidate_cols = \
+            [col_idx for col_idx in range(1, n+1) if tableau[0, col_idx] < 0]
+        s = candidate_cols[0] # Applying Bland's rule, the 1st column is chosen
+        candidate_rows = \
+            [row_idx for row_idx in range(1, m+1) if tableau[row_idx, s] > 0]
+        if len(candidate_rows) == 0 :
+            return "unbounded", float('inf'), numpy.zeros(n)
+    # Min ratio test
+        min, r = float('inf'), -1
+        for i in candidate_rows:
+            ratio = tableau[i,0] / tableau[i,s]
+            if ratio < min: #By using '<', Bland's rule is automatically applied
+                min, r = ratio, i
+        print('Pivoting on (', r, ',', s, ')')
+    # Rescale pivot row
+        tableau[r, :] /= tableau[r, s]
+    # Remove all entries in column s except for the pivot row
+        for row in range(0, r):
+            tableau[row, :] -= tableau[row, s] * tableau[r, :]
+        for row in range(r+1, m+1):
+            tableau[row, :] -= tableau[row, s] * tableau[r, :]
+        print('Current tableau\n', tableau)
+        if np.min([tableau[0,j] for j in range(1,n+1)]) >= 0:
+            #if numpy.min(tableau[0, 1:] >= 0:
+            break #Leave the while loop if all reduced costs are >= 0
+    print("Optimal solution found")
+    z = -tableau[0, 0]
+
+    return tableau, "optimal", z
+
+
+tableau = np.array([ [0, -1, -1, 0, 0],
+                                 [4,  2,  -1, 1, 0],
+                                 [3,  1,  2, 0, 1] ], dtype=np.float64)
+final_tableau, status, z = simplex_method(tableau)
+print("Final tableau =\n", final_tableau)
+print("Status = ", status)
+print("Optimal solution value =", z)
