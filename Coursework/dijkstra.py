@@ -1,8 +1,6 @@
-import networkx as nx
-import numpy as np
-import xlwt
+import numpy
+import math1058_cwk
 
-#dijkstra's Algortihm for O(n^3)
 """
     Description:
         Applies Dijkstra's Algortihm with O(n^3) complexity, the Algortihm
@@ -24,20 +22,60 @@ import xlwt
         are the node values, and the values are the cumulative weight of the path
         at that node from the starting_Node
 """
-def dijkstra1(successors, current_Node) :
-    path_taken = dict()
-    #wish to only undergo the algorithm if there are any nodes that need to be
-    #checked in the graph
-    while len(successors) > 0 :
-        #wish to check through the outgoing arcs from our current_Node
-        """
-        check the weights of the current_Node to see  which is the lowest
-        """
-        for key,value in successors[current_Node] :
+#NOT CHECKING NUMBERS Less than s
+"""
+def dijkstra1(successors, s):
+    S = []
+    S.append(s)
+    n = len(successors)
+    L = dict()
+    L[s] = 0
+    P = dict()
+    P[s] = '-'
+    distance = []
+    while len(S) < n :
+        for i in S :
+            for j, length_ij in successors[i].items() :
+                if length_ij == min(list(successors[i].values())) :
+                    w = j
+                    L[w] = L[i]+length_ij #E0 =2
+                    P[w]=i #EO = 3
+        S.append(w)#EO=4
+
+
+    return L,P
+"""
+
+def  dijkstra1(successors,s) :
+    S = []
+    S.append(s)
+    n = len(successors)
+    L = dict()
+    L[s] = 0
+    P = dict()
+    P[s] = '-'
+    minlength_j = numpy.inf
+    #lines 59-75 is O(n^3)
+    while len(S) < n :
+        for i in S :
+            for j, length_ij in successors[i].items() :
+                if j in S :
+                    continue
+                elif L[i] + length_ij < minlength_j :
+                    minlength_j = L[i] + length_ij
+                    w = j
+                    v = i
+                else :
+                    pass
+                L[w] = minlength_j
+                P[w] = v
+                minlength_j = numpy.inf
+                S.append(w)
+                if len(S) == n :
+                    return L,P
 
 
 
-#dijkstra's Algortihm for O(n^2)
 """
     Description:
         Applies Dijkstra's Algortihm with O(n^2) complexity, the Algortihm
@@ -59,5 +97,57 @@ def dijkstra1(successors, current_Node) :
         are the node values, and the values are the cumulative weight of the path
         at that node from the starting_Node
 """
-def dijkstra2(successors, starting_Node) :
-    return null
+def dijkstra2(successors, s):
+    S = []
+    S.append(s)
+    n = len(successors)
+    L = dict()
+    L[s] = 0
+    P = dict()
+    P[s] = '-'
+    V = []
+    for i in range(0, n):
+        V.append(i)
+    V.remove(s)
+    for i in range(0,n):
+        if i in successors[s].keys():
+            L[i] = successors[s][i]
+            P[i] = s
+        else:
+            L[i] = numpy.inf
+            P[i] = '-'
+
+    L[s] = 0
+    P[s] = '-'
+
+    while len(S) < n:
+        wlength = numpy.inf
+        wnode = 0
+        for i in V:
+            if L[i] <= wlength:
+                wlength = L[i]
+                wnode = i
+        S.append(wnode)
+        V.remove(wnode)
+        for j, lij in successors[wnode].items():
+            if L[wnode]+lij < L[j]:
+                L[j] = L[wnode]+lij
+                P[j] = wnode
+    return L,P
+
+
+if __name__ == "__main__":
+    adj1 = [{1 : 2, 2 : 5},
+            {2 : 3},
+            {3 : 4},
+            {0 : 21, 1 : 8}]
+
+    print(dijkstra2(adj1, 0))
+    for o in range(0, 4):
+        print(o)
+        print(dijkstra1(adj1, o))
+        print(dijkstra2(adj1, o))
+
+
+        graph_ns, graph_ms, times = math1058_cwk.run_experiments(dijkstra1, 30643996)
+        graph_ns, graph_ms, times = math1058_cwk.run_experiments(dijkstra2, 30643996)
