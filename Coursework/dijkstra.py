@@ -46,7 +46,7 @@ def dijkstra1(successors, s):
     return L,P
 """
 
-def  dijkstra1(successors,s) :
+def dijkstra1(successors, s):
     S = []
     S.append(s)
     n = len(successors)
@@ -55,24 +55,23 @@ def  dijkstra1(successors,s) :
     P = dict()
     P[s] = '-'
     minlength_j = numpy.inf
-    #lines 59-75 is O(n^3)
-    while len(S) < n :
-        for i in S :
-            for j, length_ij in successors[i].items() :
-                if j in S :
+
+    while len(S) < n:
+        minlength_j = numpy.inf
+        for i in S:
+            for j, length_ij in successors[i].items():
+                if j in S:
                     continue
-                elif L[i] + length_ij < minlength_j :
+                elif L[i] +length_ij < minlength_j:
                     minlength_j = L[i] + length_ij
-                    w = j
-                    v = i
-                else :
-                    pass
-                L[w] = minlength_j
-                P[w] = v
-                minlength_j = numpy.inf
-                S.append(w)
-                if len(S) == n :
-                    return L,P
+                    min_j = j
+                    min_i = i
+        L[min_j] = minlength_j
+        P[min_j] = min_i
+
+        S.append(min_j)
+
+    return L,P
 
 
 
@@ -149,5 +148,5 @@ if __name__ == "__main__":
         print(dijkstra2(adj1, o))
 
 
-        graph_ns, graph_ms, times = math1058_cwk.run_experiments(dijkstra1, 30643996)
-        graph_ns, graph_ms, times = math1058_cwk.run_experiments(dijkstra2, 30643996)
+        #graph_ns, graph_ms, times = math1058_cwk.run_experiments(dijkstra1, 30643996)
+        #graph_ns, graph_ms, times = math1058_cwk.run_experiments(dijkstra2, 30643996)
