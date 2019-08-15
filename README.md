@@ -1,6 +1,6 @@
 # Lab-Work-Operational-Research
 These are the Python labs from *MATH_1058* that rely on modules [*numpy*](http://www.numpy.org), [*networkx*](https://networkx.github.io)
-and [*matplotlib*] (https://matplotlib.org)
+and [*matplotlib*](https://matplotlib.org)
 
 ### Installing
 In order to get the Development Environment running, enter your Computers command Line
@@ -19,7 +19,7 @@ python Labs.py
 
 ## Authors
 
-* **Benjamin Rees** - *Initial work* - [BenWRees](https://github.com/BenWRees)
+* **Benjamin Rees** - *Developer* - [BenWRees](https://github.com/BenWRees)
 
 ## Acknowledgments
 * [*numpy*](http://www.numpy.org)
