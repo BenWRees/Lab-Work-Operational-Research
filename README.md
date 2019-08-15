@@ -24,4 +24,4 @@ python Labs.py
 ## Acknowledgments
 * [*numpy*](http://www.numpy.org)
 * [*networkx*](https://networkx.github.io)
-* [*matplotlib*] (https://matplotlib.org)
+* [*matplotlib*](https://matplotlib.org)
